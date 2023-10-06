@@ -41,6 +41,20 @@
       width: 100%;
       padding: .2rem .5rem;
       font-size: 2.5rem;
+      margin-bottom: 2rem;
+    }
+
+    #btn {
+      cursor: pointer;
+      font-size: 1.8rem;
+      padding: 1rem 2rem;
+      background-color: rgb(71, 118, 165);
+      outline: none;
+      border: none;
+    }
+
+    #btn:hover {
+      background-color: rgb(41, 119, 197);
     }
   </style>
 </head>
@@ -49,6 +63,7 @@
   <section id="chat">
     <form id="form">
       <input id="input" name="message" type="text" placeholder="Type a message">
+      <button id="btn" type="submit">Send</button>
     </form>
   </section>
 </body>
