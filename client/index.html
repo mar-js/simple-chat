@@ -9,8 +9,10 @@
     import { io } from 'https://cdn.socket.io/4.3.2/socket.io.esm.min.js'
 
     const SOCKET = io()
+
     const $FORM = document.getElementById('form')
     const $INPUT = document.getElementById('input')
+    const $MESSAGES = document.getElementById('messages')
 
     $FORM.addEventListener('submit', e => {
       e.preventDefault()
@@ -22,6 +24,11 @@
       }
     })
 
+    SOCKET.on('chat-message', msg => {
+      const $ITEM = `<li>${msg}</li>`
+
+      $MESSAGES.insertAdjacentHTML('beforeend', $ITEM)
+    })
   </script>
   <style>
     *,
@@ -94,6 +101,7 @@
       <input id="input" name="message" type="text" placeholder="Type a message">
       <button id="btn" type="submit">Send</button>
     </form>
+    <ul id="messages"></ul>
   </section>
 </body>
 
