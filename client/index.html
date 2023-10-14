@@ -10,22 +10,38 @@
 
     const SOCKET = io()
 
+    const ID = SOCKET.id
+
     const $FORM = document.getElementById('form')
     const $INPUT = document.getElementById('input')
     const $MESSAGES = document.getElementById('messages')
+
+    const USERS = []
+
+    const GENERATOR_COLOR = `#${Math.floor(Math.random() * 16777215).toString(16)}`
 
     $FORM.addEventListener('submit', e => {
       e.preventDefault()
 
       if ($INPUT.value) {
-        SOCKET.emit('chat-message', $INPUT.value)
+        SOCKET.emit('chat-message', { value: $INPUT.value, color: GENERATOR_COLOR })
 
         $INPUT.value = ''
       }
     })
 
-    SOCKET.on('chat-message', msg => {
-      const $ITEM = `<li>${msg}</li>`
+    // QUEDA SACAR O VERIFICAR SI HAY CODIGO DE MÁS
+    SOCKET.on('chat-message', ({ value, color }) => {
+      if (USERS.length === 0 || !USERS.includes(ID)) {
+        USERS.push({
+          id: ID,
+          color: color
+        })
+      }
+
+      const COLOR = USERS.find(user => user.id === ID && user).color
+
+      const $ITEM = `<li style="--color: ${color}">${value}</li>`
 
       $MESSAGES.insertAdjacentHTML('beforeend', $ITEM)
     })
@@ -78,10 +94,8 @@
     #messages>li {
       padding: 2rem;
       font-size: 1.8rem;
-    }
-
-    #messages>li:nth-child(odd) {
-      background-color: rgb(22, 58, 93);
+      margin-bottom: 1rem;
+      background-color: var(--color);
     }
 
     #input {
